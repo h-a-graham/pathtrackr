@@ -33,7 +33,7 @@ trackPath = function(dirpath, xarena, yarena, fps = 30, box = 1, jitter.damp = 0
   # Crop array to area of interest if needed
   message("Click once on the top left corner of your arena, followed by clicking once on the bottom right corner of your arena, to define the opposing corners of the entire arena...\n")
   flush.console()
-  plot(raster(file.list[1], band = 2), col = gray.colors(256), asp = 1, legend = FALSE)
+  sp::plot(raster(file.list[1], band = 2), col = gray.colors(256), asp = 1, legend = FALSE)
   bg.crop = base::as.vector(extent(select(raster(file.list[1], band = 2))))
 
   # Get aniaml tracking box in first frame
@@ -42,7 +42,7 @@ trackPath = function(dirpath, xarena, yarena, fps = 30, box = 1, jitter.damp = 0
   bg.dim = dim(bg.ref)
   message("Imagine the minimum sized rectangle that encompasses your whole animal. Click once to define the top left corner of this rectangle, followed by clicking once to define the bottom right corner of this rectangle...\n")
   flush.console()
-  plot(raster(reflect(bg.ref), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), col = gray.colors(256), asp = 1, legend = FALSE)
+  sp::plot(raster(reflect(bg.ref), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), col = gray.colors(256), asp = 1, legend = FALSE)
   animal.crop = round(base::as.vector(extent(select(raster(bg.ref, xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1])))))
 
   ref.x1 = animal.crop[1]

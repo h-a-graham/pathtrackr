@@ -30,7 +30,7 @@ makeVideo = function(dirpath, xarena, yarena, fps = 30, box = 1, jitter.damp = 0
   # Crop array to area of interest if needed
   message("Click once on the top left corner of your arena, followed by clicking once on the bottom right corner of your arena, to define the opposing corners of the entire arena...\n")
   flush.console()
-  plot(raster(file.list[1], band = 2), col = gray.colors(256), asp = 1, legend = FALSE)
+  sp::plot(raster(file.list[1], band = 2), col = gray.colors(256), asp = 1, legend = FALSE)
   bg.crop = base::as.vector(extent(select(raster(file.list[1], band = 2))))
 
   # Get aniaml tracking box in first frame
@@ -39,7 +39,7 @@ makeVideo = function(dirpath, xarena, yarena, fps = 30, box = 1, jitter.damp = 0
   bg.dim = dim(bg.ref)
   message("Imagine the minimum sized rectangle that encompasses your whole animal. Click once to define the top left corner of this rectangle, followed by clicking once to define the bottom right corner of this rectangle...\n")
   flush.console()
-  plot(raster(reflect(bg.ref), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), col = gray.colors(256), asp = 1, legend = FALSE)
+  sp::plot(raster(reflect(bg.ref), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), col = gray.colors(256), asp = 1, legend = FALSE)
   animal.crop = round(base::as.vector(extent(select(raster(bg.ref, xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1])))))
 
   ref.x1 = animal.crop[1]
@@ -110,20 +110,20 @@ makeVideo = function(dirpath, xarena, yarena, fps = 30, box = 1, jitter.damp = 0
 
       f = greyJPEG(file.list[i])
       f = f[(dim(f)[1] - bg.crop[3]):(dim(f)[1] - bg.crop[4]), bg.crop[1]:bg.crop[2]]
-      plot(1, 1, xlim = c(1, bg.dim[2]), ylim = c(1, bg.dim[1]), type = "n", xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", xlab = "", ylab = "", bty = "o", asp = 1)
+      sp::plot(1, 1, xlim = c(1, bg.dim[2]), ylim = c(1, bg.dim[1]), type = "n", xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", xlab = "", ylab = "", bty = "o", asp = 1)
       rasterImage(as.raster(reflect(f)), 1, 1, bg.dim[2], bg.dim[1])
 
-      plot(raster(reflect(frame), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), legend = FALSE, xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", cex = 1.5, col = viridis(256), asp = 1)
+      sp::plot(raster(reflect(frame), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), legend = FALSE, xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", cex = 1.5, col = viridis(256), asp = 1)
       rect(ref.x1, ref.y1, ref.x2, ref.y2, border = "yellow", lwd = 1.5)
 
-      plot(raster(reflect(tbox), xmn = 0, xmx = dim(tbox)[2], ymn = 0, ymx = dim(tbox)[1]), legend = FALSE, xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", cex = 1.5, col = viridis(256))
+      sp::plot(raster(reflect(tbox), xmn = 0, xmx = dim(tbox)[2], ymn = 0, ymx = dim(tbox)[1]), legend = FALSE, xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", cex = 1.5, col = viridis(256))
       points(round(animal$centre[2]), round(animal$centre[1]), col = "red", pch = 16, cex = 2.5)
 
-      plot(xpos * (xarena/bg.dim[2]), ypos * (yarena/bg.dim[1]), col = "#08306B", type = "l", lwd = 2, pch = 16, xlim = c(0, bg.dim[1] * (xarena/bg.dim[1])), ylim = c(0, bg.dim[2] * (yarena/bg.dim[2])), xlab = "Distance (mm)", ylab = "Distance (mm)", xaxs = "i", yaxs = "i", cex = 1.5, asp = 1)
+      sp::plot(xpos * (xarena/bg.dim[2]), ypos * (yarena/bg.dim[1]), col = "#08306B", type = "l", lwd = 2, pch = 16, xlim = c(0, bg.dim[1] * (xarena/bg.dim[1])), ylim = c(0, bg.dim[2] * (yarena/bg.dim[2])), xlab = "Distance (mm)", ylab = "Distance (mm)", xaxs = "i", yaxs = "i", cex = 1.5, asp = 1)
 
-      plot(temp.movement[, 3], cumsum(temp.movement[, 1]), type = "l", lwd = 2, xlab = "Time (s)", ylab = "Distance (mm)", bty = "l", xlim = c(0, length(file.list) * (1/fps)), ylim = c(0, 0.1), col = "#08306B", cex = 1.5)
+      sp::plot(temp.movement[, 3], cumsum(temp.movement[, 1]), type = "l", lwd = 2, xlab = "Time (s)", ylab = "Distance (mm)", bty = "l", xlim = c(0, length(file.list) * (1/fps)), ylim = c(0, 0.1), col = "#08306B", cex = 1.5)
 
-      plot(temp.movement[, 3], temp.movement[, 2], type = "l", lwd = 1.5, xlab = "Time (s)", ylab = "Velocity (mm/s)", bty = "l", xlim = c(0, length(file.list) * (1/fps)), ylim = c(0, 0.1), col = "#08306B", cex = 1.5)
+      sp::plot(temp.movement[, 3], temp.movement[, 2], type = "l", lwd = 1.5, xlab = "Time (s)", ylab = "Velocity (mm/s)", bty = "l", xlim = c(0, length(file.list) * (1/fps)), ylim = c(0, 0.1), col = "#08306B", cex = 1.5)
 
       # For the remaining frames...
     } else {
@@ -234,23 +234,23 @@ makeVideo = function(dirpath, xarena, yarena, fps = 30, box = 1, jitter.damp = 0
 
       f = greyJPEG(file.list[i])
       f = f[(dim(f)[1] - bg.crop[3]):(dim(f)[1] - bg.crop[4]), bg.crop[1]:bg.crop[2]]
-      plot(1, 1, xlim = c(1, bg.dim[2]), ylim = c(1, bg.dim[1]), type = "n", xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", xlab = "", ylab = "", bty = "o", asp = 1)
+      sp::plot(1, 1, xlim = c(1, bg.dim[2]), ylim = c(1, bg.dim[1]), type = "n", xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", xlab = "", ylab = "", bty = "o", asp = 1)
       rasterImage(as.raster(reflect(f)), 1, 1, bg.dim[2], bg.dim[1])
 
-      plot(raster(reflect(frame), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), legend = FALSE, xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", cex = 1.5, col = viridis(256), asp = 1)
+      sp::plot(raster(reflect(frame), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), legend = FALSE, xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", cex = 1.5, col = viridis(256), asp = 1)
       rect(x1, y1, x2, y2, border = "yellow", lwd = 1.5)
 
-      plot(raster(reflect(tbox), xmn = 0, xmx = dim(tbox)[2], ymn = 0, ymx = dim(tbox)[1]), legend = FALSE, xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", cex = 1.5, col = viridis(256))
+      sp::plot(raster(reflect(tbox), xmn = 0, xmx = dim(tbox)[2], ymn = 0, ymx = dim(tbox)[1]), legend = FALSE, xaxs = "i", yaxs = "i", xaxt = "n", yaxt = "n", cex = 1.5, col = viridis(256))
       points(round(animal$centre[2]), round(animal$centre[1]), col = "red", pch = 16, cex = 2.5)
 
       segments((xpos[i - 1] - x1), (ypos[i - 1] - y1), (xpos[i] - x1), (ypos[i] - y1), col = "red", pch = 16, lwd = 3)
 
-      plot(xpos * (xarena/bg.dim[2]), ypos * (yarena/bg.dim[1]), col = "#08306B", type = "l", lwd = 2, pch = 16, xlim = c(0, bg.dim[1] * (xarena/bg.dim[1])), ylim = c(0, bg.dim[2] * (yarena/bg.dim[2])), xlab = "Distance (mm)", ylab = "Distance (mm)", xaxs = "i", yaxs = "i", cex = 1.5, asp = 1)
+      sp::plot(xpos * (xarena/bg.dim[2]), ypos * (yarena/bg.dim[1]), col = "#08306B", type = "l", lwd = 2, pch = 16, xlim = c(0, bg.dim[1] * (xarena/bg.dim[1])), ylim = c(0, bg.dim[2] * (yarena/bg.dim[2])), xlab = "Distance (mm)", ylab = "Distance (mm)", xaxs = "i", yaxs = "i", cex = 1.5, asp = 1)
 
       cumDistance = cumsum(ifelse(is.na(temp.movement[, 1]), 0, temp.movement[, 1])) + temp.movement[, 1] * 0
-      plot(temp.movement[, 3], cumDistance, type = "l", lwd = 2, xlab = "Time (s)", ylab = "Distance (mm)", bty = "l", xlim = c(0, length(file.list) * (1/fps)), col = "#08306B", cex = 1.5)
+      sp::plot(temp.movement[, 3], cumDistance, type = "l", lwd = 2, xlab = "Time (s)", ylab = "Distance (mm)", bty = "l", xlim = c(0, length(file.list) * (1/fps)), col = "#08306B", cex = 1.5)
 
-      plot(temp.movement[, 3], temp.movement[, 2], type = "l", lwd = 1.5, xlab = "Time (s)", ylab = "Velocity (mm/s)", bty = "l", xlim = c(0, length(file.list) * (1/fps)), col = "#08306B", cex = 1.5)
+      sp::plot(temp.movement[, 3], temp.movement[, 2], type = "l", lwd = 1.5, xlab = "Time (s)", ylab = "Velocity (mm/s)", bty = "l", xlim = c(0, length(file.list) * (1/fps)), col = "#08306B", cex = 1.5)
 
     }
     dev.off()
