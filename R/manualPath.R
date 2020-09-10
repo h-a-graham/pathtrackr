@@ -22,7 +22,7 @@ manualPath = function(dirpath, xarena, yarena, fps = 30) {
   # Crop array to area of interest if needed
   message("Click once on the top left corner of your arena, followed by clicking once on the bottom right corner of your arena, to define the opposing corners of the entire arena...\n")
   flush.console()
-  plot(raster(file.list[1], band = 2), col = gray.colors(256), asp = 1, legend = FALSE)
+  sp::plot(raster(file.list[1], band = 2), col = gray.colors(256), asp = 1, legend = FALSE)
   bg.crop = base::as.vector(extent(select(raster(file.list[1], band = 2))))
 
   xpos = c()
@@ -37,7 +37,7 @@ manualPath = function(dirpath, xarena, yarena, fps = 30) {
     bg.ref = greyJPEG(file.list[i])
     bg.ref = bg.ref[(dim(bg.ref)[1] - bg.crop[3]):(dim(bg.ref)[1] - bg.crop[4]), bg.crop[1]:bg.crop[2]]
     bg.dim = dim(bg.ref)
-    plot(raster(reflect(bg.ref), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), col = gray.colors(256), asp = 1, legend = FALSE)
+    sp::plot(raster(reflect(bg.ref), xmn = 0, xmx = bg.dim[2], ymn = 0, ymx = bg.dim[1]), col = gray.colors(256), asp = 1, legend = FALSE)
 
     mtext("x", side = 1, line = 3, adj = 0.0, cex = 2, col = "red", at = -25)
     mtext("Click the 'x' if the animal is not visible", side = 1, line = 4, adj = 0.0, cex = 1, col = "red", at = -25)
